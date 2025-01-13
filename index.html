@@ -34,6 +34,7 @@
 <ul>
     <li>File Permissions</li>
     <li>Shell Parameter Expansion</li>
+    <li>Difference Between <code>./script.sh $(pwd)</code> and <code>pwd | ./script.sh</code></li>
 </ul>
 
 <h2>1. File Permissions Issues</h2>
@@ -101,5 +102,42 @@ echo "${#name}"</code></pre>
 
 <h3>Pro Tip:</h3>
 <p>Always use curly braces (<code>${}</code>) around variables to avoid ambiguities and ensure proper expansion.</p>
+
+<h2>3. Difference Between <code>./script.sh $(pwd)</code> and <code>pwd | ./script.sh</code></h2>
+<p>These two commands look similar but differ in how they pass arguments to a script.</p>
+
+<h3>1. <code>./script.sh $(pwd)</code></h3>
+<p>This command:</p>
+<ol>
+    <li>Uses command substitution <code>$(pwd)</code> to execute the <code>pwd</code> command and capture its output (the current working directory).</li>
+    <li>Passes the output as a positional argument to <code>script.sh</code>.</li>
+    <li>Inside the script, the value can be accessed as <code>$1</code> (the first argument).</li>
+</ol>
+<p>Example:</p>
+<pre><code>#!/bin/bash
+echo "The first argument is: $1"
+</code></pre>
+<p>If the current directory is <code>/home/user</code>, running <code>./script.sh $(pwd)</code> will output:</p>
+<pre><code>The first argument is: /home/user</code></pre>
+
+<h3>2. <code>pwd | ./script.sh</code></h3>
+<p>This command:</p>
+<ol>
+    <li>Uses a pipe (<code>|</code>) to send the output of <code>pwd</code> as input to the standard input (stdin) of <code>script.sh</code>.</li>
+    <li>The script can read this input using commands like <code>read</code> or <code>cat</code>.</li>
+</ol>
+<p>Example:</p>
+<pre><code>#!/bin/bash
+read input
+echo "The input is: $input"
+</code></pre>
+<p>If the current directory is <code>/home/user</code>, running <code>pwd | ./script.sh</code> will output:</p>
+<pre><code>The input is: /home/user</code></pre>
+
+<h3>Key Differences:</h3>
+<ul>
+    <li><strong>Positional Argument vs. Standard Input:</strong> The first passes the value as a command-line argument, while the second passes it through stdin.</li>
+    <li><strong>Access Method:</strong> Use <code>$1</code> for arguments and <code>read</code> or <code>cat</code> for stdin.</li>
+</ul>
 </body>
 </html>
