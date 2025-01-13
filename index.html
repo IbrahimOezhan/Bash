@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Bash Issues: Permissions and Path Expansion</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1, h2 {
+            color: #007BFF;
+        }
+        code {
+            background-color: #e8e8e8;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #e8e8e8;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+<h1>Linux Bash Issues</h1>
+<p>This page details common Linux Bash issues and their solutions for:</p>
+<ul>
+    <li>File Permissions</li>
+    <li>Path Expansion</li>
+</ul>
+
+<h2>1. File Permissions Issues</h2>
+<p>File permissions control who can read, write, or execute a file. If a script cannot be executed, it is likely due to insufficient permissions.</p>
+
+<h3>Solution:</h3>
+<ol>
+    <li>Check the current permissions of the file using the <code>ls</code> command:</li>
+    <pre><code>ls -l script.sh</code></pre>
+    <p>The output will look something like this:</p>
+    <pre><code>-rw-r--r-- 1 user group 1024 Jan 13 12:00 script.sh</code></pre>
+    <p>The <code>-rw-r--r--</code> indicates that the file is readable and writable by the owner but not executable.</p>
+
+    <li>To make the file executable, use:</li>
+    <pre><code>chmod +x script.sh</code></pre>
+
+    <li>Verify the permissions again with <code>ls -l</code>. The output should now show <code>-rwxr--r--</code>.</li>
+
+    <li>Run the script:</li>
+    <pre><code>./script.sh</code></pre>
+</ol>
+
+<h2>6. Path Expansion Issues</h2>
+<p>Path expansion issues occur when wildcards or variables do not expand as expected, causing errors or unexpected behavior.</p>
+
+<h3>Common Scenarios:</h3>
+<ul>
+    <li>Wildcard patterns not matching files.</li>
+    <li>Spaces or special characters in file paths causing errors.</li>
+</ul>
+
+<h3>Solution:</h3>
+<ol>
+    <li>Enable recursive wildcard expansion using <code>shopt</code> (available in Bash 4.0 and later):</li>
+    <pre><code>shopt -s globstar</code></pre>
+
+    <li>Use wildcards to match files. For example, to list all <code>.txt</code> files in subdirectories:</li>
+    <pre><code>for file in **/*.txt; do echo "$file"; done</code></pre>
+
+    <li>Handle spaces in filenames by quoting variables:</li>
+    <pre><code>for file in "**/*.txt"; do echo "$file"; done</code></pre>
+
+    <li>Escape special characters manually if needed:</li>
+    <pre><code>rm file\ name\ with\ spaces.txt</code></pre>
+</ol>
+
+<h3>Pro Tip:</h3>
+<p>To debug path-related issues, use <code>echo</code> to print the expanded variable or wildcard before executing commands.</p>
+</body>
+</html>
