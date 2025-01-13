@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linux Bash Issues: Permissions and Path Expansion</title>
+    <title>Linux Bash Issues: Permissions and Parameter Expansion</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -33,7 +33,7 @@
 <p>This page details common Linux Bash issues and their solutions for:</p>
 <ul>
     <li>File Permissions</li>
-    <li>Path Expansion</li>
+    <li>Shell Parameter Expansion</li>
 </ul>
 
 <h2>1. File Permissions Issues</h2>
@@ -56,31 +56,50 @@
     <pre><code>./script.sh</code></pre>
 </ol>
 
-<h2>6. Path Expansion Issues</h2>
-<p>Path expansion issues occur when wildcards or variables do not expand as expected, causing errors or unexpected behavior.</p>
+<h2>2. Shell Parameter Expansion</h2>
+<p>Shell parameter expansion is a feature in Bash that allows you to manipulate the values of variables and parameters. This can include default values, string manipulation, and more.</p>
 
-<h3>Common Scenarios:</h3>
-<ul>
-    <li>Wildcard patterns not matching files.</li>
-    <li>Spaces or special characters in file paths causing errors.</li>
-</ul>
+<h3>Basic Syntax:</h3>
+<p>The general syntax for parameter expansion is:</p>
+<pre><code>${parameter}</code></pre>
 
-<h3>Solution:</h3>
+<h3>Examples and Use Cases:</h3>
 <ol>
-    <li>Enable recursive wildcard expansion using <code>shopt</code> (available in Bash 4.0 and later):</li>
-    <pre><code>shopt -s globstar</code></pre>
+    <li><strong>Default Values:</strong> Assign a default value if the variable is unset or null.</li>
+    <pre><code>${variable:-default}</code></pre>
+    <p>Example:</p>
+    <pre><code>echo "${name:-Guest}"</code></pre>
+    <p>If <code>name</code> is unset, it will output "Guest".</p>
 
-    <li>Use wildcards to match files. For example, to list all <code>.txt</code> files in subdirectories:</li>
-    <pre><code>for file in **/*.txt; do echo "$file"; done</code></pre>
+    <li><strong>Set Default Value:</strong> Assign a value to the variable if it is unset or null.</li>
+    <pre><code>${variable:=default}</code></pre>
+    <p>Example:</p>
+    <pre><code>echo "${name:=Guest}"</code></pre>
+    <p>If <code>name</code> is unset, it will assign "Guest" to it.</p>
 
-    <li>Handle spaces in filenames by quoting variables:</li>
-    <pre><code>for file in "**/*.txt"; do echo "$file"; done</code></pre>
+    <li><strong>Substring Extraction:</strong> Extract a substring from a variable.</li>
+    <pre><code>${variable:offset:length}</code></pre>
+    <p>Example:</p>
+    <pre><code>name="HelloWorld"
+echo "${name:0:5}"</code></pre>
+    <p>Outputs: <code>Hello</code>.</p>
 
-    <li>Escape special characters manually if needed:</li>
-    <pre><code>rm file\ name\ with\ spaces.txt</code></pre>
+    <li><strong>String Replacement:</strong> Replace part of a string.</li>
+    <pre><code>${variable/pattern/replacement}</code></pre>
+    <p>Example:</p>
+    <pre><code>text="I like apples"
+echo "${text/apples/oranges}"</code></pre>
+    <p>Outputs: <code>I like oranges</code>.</p>
+
+    <li><strong>Length of a Variable:</strong> Get the length of a string.</li>
+    <pre><code>${#variable}</code></pre>
+    <p>Example:</p>
+    <pre><code>name="Hello"
+echo "${#name}"</code></pre>
+    <p>Outputs: <code>5</code>.</p>
 </ol>
 
 <h3>Pro Tip:</h3>
-<p>To debug path-related issues, use <code>echo</code> to print the expanded variable or wildcard before executing commands.</p>
+<p>Always use curly braces (<code>${}</code>) around variables to avoid ambiguities and ensure proper expansion.</p>
 </body>
 </html>
