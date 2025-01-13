@@ -35,6 +35,7 @@
     <li>File Permissions</li>
     <li>Shell Parameter Expansion</li>
     <li>Difference Between <code>./script.sh $(pwd)</code> and <code>pwd | ./script.sh</code></li>
+    <li>Basics of Bash Scripting</li>
 </ul>
 
 <h2>1. File Permissions Issues</h2>
@@ -139,5 +140,54 @@ echo "The input is: $input"
     <li><strong>Positional Argument vs. Standard Input:</strong> The first passes the value as a command-line argument, while the second passes it through stdin.</li>
     <li><strong>Access Method:</strong> Use <code>$1</code> for arguments and <code>read</code> or <code>cat</code> for stdin.</li>
 </ul>
+
+<h2>4. Basics of Bash Scripting</h2>
+<p>When creating Bash scripts, there are basic concepts that are often overlooked or forgotten:</p>
+
+<h3>1. Shebang (<code>#!</code>)</h3>
+<p>The first line of a script should specify the interpreter using the shebang:</p>
+<pre><code>#!/bin/bash</code></pre>
+<p>This ensures the script is executed with the correct shell.</p>
+
+<h3>2. Variables</h3>
+<p>Declare variables without spaces around the equals sign:</p>
+<pre><code>name="John Doe"</code></pre>
+<p>Access variables using <code>$</code>:</p>
+<pre><code>echo "$name"</code></pre>
+
+<h3>3. Quoting</h3>
+<p>Always use quotes to handle spaces and special characters properly:</p>
+<pre><code>echo "My name is $name"</code></pre>
+
+<h3>4. Conditionals</h3>
+<p>Use <code>if</code> statements for decision-making:</p>
+<pre><code>if [ "$name" == "John" ]; then
+    echo "Hello, John!"
+fi</code></pre>
+
+<h3>5. Loops</h3>
+<p>Iterate using loops:</p>
+<pre><code>for i in 1 2 3; do
+    echo "Number: $i"
+done</code></pre>
+
+<h3>6. Error Handling</h3>
+<p>Use <code>set -e</code> to exit on errors and <code>set -u</code> to treat unset variables as errors:</p>
+<pre><code>#!/bin/bash
+set -eu
+</code></pre>
+
+<h3>7. Functions</h3>
+<p>Define reusable code blocks as functions:</p>
+<pre><code>greet() {
+    echo "Hello, $1!"
+}
+greet "Alice"</code></pre>
+
+<h3>8. Debugging</h3>
+<p>Use <code>set -x</code> to debug scripts by printing each command before execution:</p>
+<pre><code>#!/bin/bash
+set -x
+echo "Debugging mode enabled"
+</code></pre>
 </body>
-</html>
