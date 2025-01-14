@@ -36,6 +36,7 @@
     <li>Shell Parameter Expansion</li>
     <li>Difference Between <code>./script.sh $(pwd)</code> and <code>pwd | ./script.sh</code></li>
     <li>Basics of Bash Scripting</li>
+    <li>Differences Between Redirection Operators</li>
 </ul>
 
 <h2>1. File Permissions Issues</h2>
@@ -190,4 +191,45 @@ greet "Alice"</code></pre>
 set -x
 echo "Debugging mode enabled"
 </code></pre>
-</body>
+
+<h2>5. Differences Between Redirection Operators</h2>
+<p>In Bash scripting, redirection operators are used to control the flow of input and output. Here are the differences:</p>
+
+<h3>Input Redirection:</h3>
+<ul>
+    <li><code><</code>: Redirects a file as input to a command.</li>
+    <pre><code>command < file.txt</code></pre>
+    <p>Example: <code>cat < file.txt</code> reads <code>file.txt</code> as input to <code>cat</code>.</p>
+
+    <li><code><<</code>: A here-document to provide input directly in the script.</li>
+    <pre><code>command <<EOF
+            input line 1
+            input line 2
+            EOF</code></pre>
+    <p>Example: <code>cat <<EOF</code> provides multi-line input to <code>cat</code>.</p>
+
+    <li><code><<<</code>: A here-string to provide a single-line input.</li>
+    <pre><code>command <<< "input text"</code></pre>
+    <p>Example: <code>cat <<< "Hello World"</code> sends "Hello World" as input.</p>
+</ul>
+
+<h3>Output Redirection:</h3>
+<ul>
+    <li><code>></code>: Redirects standard output to a file (overwrites the file).</li>
+    <pre><code>command > file.txt</code></pre>
+    <p>Example: <code>echo "Hello" > file.txt</code> writes "Hello" to <code>file.txt</code>.</p>
+
+    <li><code>>></code>: Redirects standard output to a file (appends to the file).</li>
+    <pre><code>command >> file.txt</code></pre>
+    <p>Example: <code>echo "World" >> file.txt</code> appends "World" to <code>file.txt</code>.</p>
+</ul>
+
+<h3>Pipes and Process Substitution:</h3>
+<ul>
+    <li><code>|</code>: Sends the output of one command as input to another.</li>
+    <pre><code>command1 | command2</code></pre>
+    <p>Example: <code>ls | grep .txt</code> filters the output of <code>ls</code> for files ending in <code>.txt</code>.</p>
+
+    <li><code>|&</code>: Sends both standard output and standard error as input to another command.</li>
+    <pre><code>command1 |& command2</code></pre>
+    <p>Example: <code>command_with_error |& grep "
